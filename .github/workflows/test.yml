@@ -5,17 +5,13 @@ on: [push, pull_request]
 jobs:
   tests:
     runs-on: ubuntu-22.04
-    container: ubuntu:18.04
+    container: ubuntu:20.04
     env:
       ARCH: x64
       TARGET: linux
 
     steps:
       - uses: actions/checkout@v4
-      - name: Install libc6
-        run: |
-          sudo apt-get update
-          sudo apt-get install libc6=2.28-10
       - uses: actions/setup-node@v4
         with:
           node-version: 16
