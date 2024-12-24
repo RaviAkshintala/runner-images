@@ -1,0 +1,17 @@
+name: Install and Verify Tools
+
+on: [push, pull_request]
+
+jobs:
+  tests:
+    runs-on: ubuntu-22.04
+    container: ubuntu:18.04
+    env:
+      ARCH: x64
+      TARGET: linux
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 18
