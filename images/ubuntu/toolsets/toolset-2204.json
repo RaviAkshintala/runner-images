@@ -290,16 +290,16 @@
     },
     "gcc": {
         "versions": [
-            "g++-9",
-            "g++-10",
-            "g++-12"
+            "g++-12",
+            "g++-13",
+            "g++-14"
         ]
     },
     "gfortran": {
         "versions": [
-            "gfortran-9",
-            "gfortran-10",
-            "gfortran-12"
+            "gfortran-12",
+            "gfortran-13",
+            "gfortran-14"
         ]
     },
     "php": {
