@@ -3,7 +3,7 @@ name: Create Large ARM64 Runner and Run gsutil
 on: [push, pull_request]
 
 jobs:
-  create-and-run:
+ 
     runs-on: ubuntu24.04
     steps:
       - name: Checkout repository
