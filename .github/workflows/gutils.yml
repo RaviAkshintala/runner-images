@@ -1,13 +1,25 @@
-name: Create Large ARM64 Runner and Run gsutil
+name: Check gsutil Version
 
 on: [push, pull_request]
 
 jobs:
- 
-    runs-on: ubuntu24.04
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+  check-gsutil-version:
+    runs-on: ubuntu-24.04
 
-      - name: Run gsutil version
-        run: gsutil --version
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Cloud SDK
+      uses: google-github-actions/setup-gcloud@master
+      with:
+        version: 'latest'
+        export_default_credentials: true
+
+    - name: Install gsutil
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-cloud-sdk
+
+    - name: Check gsutil version
+      run: gsutil version
