@@ -1,21 +1,22 @@
-name: Check gsutil Version
+name: Gsutil Version Check
 
-on: [push, pull_request]
 
+on: [push,pull_request]
 jobs:
   check-gsutil-version:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-   
+      - name: Set up Google Cloud SDK
+        uses: google-github-actions/setup-gcloud@v0
 
-    - name: Install gsutil
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y google-cloud-sdk
+      - name: Install gsutil
+        run: |
+          echo "Installing gsutil..."
+          sudo apt-get update && sudo apt-get install -y google-cloud-sdk
 
-    - name: Check gsutil version
-      run: gsutil version
+      - name: Check gsutil version
+        run: gsutil --version
