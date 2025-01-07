@@ -1,21 +1,19 @@
-name: .NET 9.0 Installation
+name: Install .NET 9.0
 
-on: [push,pull_request]
+on: [push, pull_request]
 
 jobs:
-  install-dotnet:
-    runs-on: ubuntu-24.04
-
+  build:
+    runs-on: ubuntu-latest
+    
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-
-    - name: Install .NET 9.0 SDK
+      
+    - name: Set up .NET 9.0
       run: |
-        wget https://download.visualstudio.microsoft.com/download/pr/9e0c0f45-1b81-4ef9-80a1-8e8c3e4d60bb/edb9f9e973d2a6c658b8fdfd5e5b94fa/dotnet-sdk-9.0.100-linux-x64.tar.gz
-        mkdir -p $HOME/dotnet
-        tar -C $HOME/dotnet -xzf dotnet-sdk-9.0.100-linux-x64.tar.gz
-        export PATH=$PATH:$HOME/dotnet
-
-    - name: Verify .NET SDK installation
-      run: dotnet --version
+        sudo apt-get update
+        sudo apt-get install -y apt-transport-https
+        sudo apt-get update
+        sudo apt-get install -y dotnet-sdk-9.0
+        dotnet --version
