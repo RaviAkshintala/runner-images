@@ -1,0 +1,17 @@
+name: Install libltdldev on Ubuntu 24
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Set up Ubuntu environment
+      uses: actions/setup-ubuntu@v4
+
+    - name: Install libltdldev
+      run: sudo apt-get update && sudo apt-get install -y libltdl-dev
+
+    - name: Verify installation
+      run: dpkg -l | grep libltdl-dev
