@@ -237,9 +237,10 @@
         "versions": [
             "16",
             "17",
-            "18"
+            "18",
+            "19"
         ],
-        "default_version": "18"
+        "default_version": "19"
     },
     "gcc": {
         "versions": [
@@ -257,7 +258,7 @@
     },
     "php": {
         "versions": [
-            "8.3"
+            "8.4"
         ]
     },
     "rubygems": [
