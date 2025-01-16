@@ -1,0 +1,24 @@
+name: Install and Check WSL2 Version
+
+on: [push,pull_request]
+
+jobs:
+  wsl2-setup:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install WSL
+        run: |
+          dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart
+          dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart
+          wsl --set-default-version 2
+          wsl --install
+          wsl --update
+
+      - name: Check WSL Version
+        run: wsl --list --verbose
+
+      - name: Display WSL Kernel Version
+        run: wsl uname -r
