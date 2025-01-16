@@ -1,0 +1,17 @@
+name: Install PowerShell Module
+
+on: [push, pull_request]
+
+jobs:
+  install-powershell-module:
+    runs-on: windows-2019
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Install PowerShell Module
+      run: |
+        Install-Module -Name "ModuleName" -Force -Scope CurrentUser
+        Import-Module "ModuleName"
+      shell: pwsh
