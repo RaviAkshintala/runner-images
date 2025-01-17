@@ -1,0 +1,24 @@
+name: Install Requirements
+
+on: [push, pull_request]
+
+jobs:
+  install:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Update and install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libxml2-dev libxslt-dev
+
+    - name: Install requirements.txt
+      run: |
+        ls -l
+        node --version
+        python --version
+        pip --version
+        python3 -m pip install -r "./requirements.txt"
