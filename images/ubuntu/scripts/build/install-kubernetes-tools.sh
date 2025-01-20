@@ -29,8 +29,7 @@ rm -f /etc/apt/sources.list.d/kubernetes.list
 
 # Install Helm
 # Temporary pin version v3.16.4 due to strange release of v3.17.0
-helm_version="v3.16.4"
-download_with_retry "https://get.helm.sh/helm-$helm_version-linux-amd64.tar.gz" /tmp/helm.tar.gz
+download_with_retry "hcurl -LO https://get.helm.sh/helm-v3.16.4-linux-amd64.tar.gz" /tmp/helm.tar.gz
 mkdir -p /tmp/helm
 tar xzf /tmp/helm.tar.gz -C /tmp/helm
 cp /tmp/helm/linux-amd64/helm /usr/local/bin/helm
