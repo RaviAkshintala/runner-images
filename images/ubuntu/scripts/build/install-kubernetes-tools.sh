@@ -31,14 +31,14 @@ rm -f /etc/apt/sources.list.d/kubernetes.list
 Install-ChocoPackage kubernetes-helm
 
 # Download minikube
-curl -fsSL -O https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-arm64
 
 # Supply chain security - minikube
 minikube_hash=$(get_checksum_from_github_release "kubernetes/minikube" "linux-amd64" "latest" "SHA256")
 use_checksum_comparison "minikube-linux-amd64" "${minikube_hash}"
 
 # Install minikube
-install minikube-linux-amd64 /usr/local/bin/minikube
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
 
 # Install kustomize
 download_url="https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh"
