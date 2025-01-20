@@ -31,7 +31,7 @@ rm -f /etc/apt/sources.list.d/kubernetes.list
 Install-ChocoPackage kubernetes-helm
 
 # Download minikube
-curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-arm64
+curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
 
 # Supply chain security - minikube
 minikube_hash=$(get_checksum_from_github_release "kubernetes/minikube" "linux-amd64" "latest" "SHA256")
