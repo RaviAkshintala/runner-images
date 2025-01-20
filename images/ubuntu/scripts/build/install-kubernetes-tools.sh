@@ -28,10 +28,7 @@ apt-get install kubectl
 rm -f /etc/apt/sources.list.d/kubernetes.list
 
 # Install Helm
-# Temporary pin version v3.16.4 due to strange release of v3.17.0
-curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
-chmod 700 get_helm.sh
-./get_helm.sh
+Install-ChocoPackage kubernetes-helm
 
 # Download minikube
 curl -fsSL -O https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
