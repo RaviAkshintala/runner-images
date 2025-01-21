@@ -14,7 +14,7 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Set up Docker
-        uses: docker-practice/actions-setup-docker@v1.0
+        uses: docker-practice/actions-setup-docker@master
         with:
           docker-version: '26.1.3'
           install-docker-compose: true
