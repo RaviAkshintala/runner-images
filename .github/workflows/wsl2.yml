@@ -1,37 +1,65 @@
-name: Install WSL2
+name: Install WSL2 and Verify Installation
 
 on: [push,pull_request]
 
 jobs:
-  install-wsl2:
+  install_wsl:
     runs-on: windows-2025
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      # Checkout the code (if necessary for your script)
+      - name: Checkout Repository
+        uses: actions/checkout@v4
 
-    - name: Get latest WSL release version
-      shell: pwsh
-      run: |
-        $version = (Get-GithubReleasesByVersion -Repo "microsoft/WSL" -Version "latest").version
-        echo "Latest WSL version: $version"
+      # Set up PowerShell
+      - name: Set up PowerShell
+        uses: actions/setup-powershell@v2
 
-    - name: Install WSL2
-      shell: pwsh
-      run: |
-        wsl --install --no-distribution
+      # Install WSL2 manually via MSI
+      - name: Install WSL2
+        shell: pwsh
+        run: |
+          Write-Host "Install WSL2"
+          
+          # Fetch the latest version from GitHub
+          $version = (Invoke-RestMethod -Uri "https://api.github.com/repos/microsoft/WSL/releases/latest").tag_name
+          Write-Host "Latest WSL version: $version"
+          
+          # Build the download URL
+          $downloadUrl = "https://github.com/microsoft/WSL/releases/download/$version/wsl-$version.msi"
+          Write-Host "Download URL: $downloadUrl"
+          
+          # Download the WSL MSI installer
+          $installerPath = "$env:TEMP\wsl-installer.msi"
+          Invoke-WebRequest -Uri $downloadUrl -OutFile $installerPath
+          
+          # Install WSL MSI
+          Start-Process msiexec.exe -ArgumentList "/i", $installerPath, "/quiet", "/norestart" -Wait
+          Write-Host "WSL installation completed."
 
-    - name: Check WSL status
-      shell: pwsh
-      run: |
-        wsl --status
+      # Install WSL without a distribution
+      - name: Perform wsl --install --no-distribution
+        shell: pwsh
+        run: |
+          Write-Host "Performing wsl --install --no-distribution"
+          wsl.exe --install --no-distribution
 
-    - name: Check WSL version
-      shell: pwsh
-      run: |
-        wsl --version
+      # Verify WSL installation status and version
+      - name: Check WSL Status and Version
+        shell: pwsh
+        run: |
+          Write-Host "Checking WSL Status"
+          wsl --status
+          
+          Write-Host "Checking WSL Version"
+          wsl --version
+          
+          Write-Host "Updating WSL"
+          wsl --update
 
-    - name: Update WSL
-      shell: pwsh
-      run: |
-        wsl --update
+      # Run Pester tests (or your custom testing framework)
+      - name: Run Pester Tests
+        shell: pwsh
+        run: |
+          Write-Host "Running Pester Tests"
+          Invoke-Pester -TestFile "WindowsFeatures.Tests.ps1" -TestName "WSL2"
