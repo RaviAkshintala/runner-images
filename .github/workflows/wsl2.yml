@@ -11,9 +11,7 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Set up PowerShell
-      - name: Set up PowerShell
-        uses: actions/setup-powershell@v2
+  
 
       # Install WSL2 manually via MSI
       - name: Install WSL2
