@@ -3,24 +3,21 @@ name: Get Edge Driver Thumbprint
 on: [push, pull_request]
 
 jobs:
-  get-thumbprint:
-    runs-on: windows-2022
+  extract_thumbprint:
+    runs-on: windows-2022  
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Download Edge Driver
-      run: wget https://msedgedriver.azureedge.net/132.0.2957.127/edgedriver_win64.zip -O edgedriver.zip
-
-    - name: Unzip Edge Driver
-      run: unzip edgedriver.zip -d edgedriver
-
-    - name: Calculate Thumbprint
-      run: |
-        openssl dgst -sha1 -binary edgedriver/msedgedriver.exe | openssl base64
-        THUMBPRINT=$(openssl dgst -sha256 -binary edgedriver/msedgedriver.exe | openssl base64)
-        echo "THUMBPRINT=$THUMBPRINT" >> $GITHUB_ENV
-
-    - name: Print Thumbprint
-      run: echo "Thumbprint: ${{ env.THUMBPRINT }}"
+      - name: Download EdgeDriver
+        run: |
+          Invoke-WebRequest -Uri "https://msedgedriver.azureedge.net/132.0.2957.127/edgedriver_win64.zip" -OutFile "edgedriver.zip"
+      - name: Unzip EdgeDriver
+        run: |
+          Expand-Archive -Path "edgedriver.zip" -DestinationPath "edgedriver"
+      - name: Get Certificate Thumbprint
+        run: |
+          $certPath = "edgedriver/msedgedriver.exe"  # Adjust if necessary based on extraction
+          $cert = Get-AuthenticodeSignature -FilePath $certPath
+          Write-Output "Thumbprint: $($cert.SignerCertificate.Thumbprint)"
