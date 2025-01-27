@@ -1,0 +1,26 @@
+name: Get Edge Driver Thumbprint
+
+on: [push, pull_request]
+
+jobs:
+  get-thumbprint:
+    runs-on: windows-2022
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Download Edge Driver
+      run: wget https://msedgedriver.azureedge.net/132.0.2957.127/edgedriver_win64.zip -O edgedriver.zip
+
+    - name: Unzip Edge Driver
+      run: unzip edgedriver.zip -d edgedriver
+
+    - name: Calculate Thumbprint
+      run: |
+        openssl dgst -sha1 -binary edgedriver/msedgedriver.exe | openssl base64
+        THUMBPRINT=$(openssl dgst -sha256 -binary edgedriver/msedgedriver.exe | openssl base64)
+        echo "THUMBPRINT=$THUMBPRINT" >> $GITHUB_ENV
+
+    - name: Print Thumbprint
+      run: echo "Thumbprint: ${{ env.THUMBPRINT }}"
