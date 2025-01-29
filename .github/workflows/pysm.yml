@@ -1,0 +1,24 @@
+name: Install pysam
+
+on: [push, pull_request]
+
+jobs:
+  install_pysam:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install required build dependencies
+        run: sudo apt-get update && sudo apt-get install -y libbz2-dev zlib1g-dev build-essential
+
+
+      - name: Install dependencies
+        run: python3 -m pip install pysam
