@@ -1,31 +1,34 @@
-name: git tags
+name: Add and Read Tag
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
-  deploy:
-    runs-on: ubuntu-22.04
-    permissions:
-      id-token: write
-      contents: write
+  add-tag:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Add tag to commit
+        run: |
+          TAG_NAME="v1.0.$(date +%Y%m%d%H%M%S)"
+          git tag $TAG_NAME
+          git push origin $TAG_NAME
+
+  read-tag:
+    runs-on: ubuntu-latest
+    needs: add-tag
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
           fetch-tags: true
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ inputs.artifact-name }}
-      - name: Debug Git Tags
-        run: |
-          git fetch --tags
-          git tag
+
       - name: Get existing version tag
         id: get-existing-tag
-        shell: bash
         run: |
-          echo "EXISTING=$( (git tag --points-at ${{ inputs.commit-sha }}) | head -1)" >> $GITHUB_OUTPUT
-      - run: echo Updating tag for ${{ steps.get-existing-tag.outputs.EXISTING }}
-        shell: bash
+          echo "EXISTING=$(git tag --points-at HEAD | head -1)" >> $GITHUB_OUTPUT
+
+      - name: Output tag
+        run: echo "Tag:${{ steps.get-existing-tag.outputs.EXISTING }}"
