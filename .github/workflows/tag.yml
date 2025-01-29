@@ -1,0 +1,31 @@
+name: git tags
+
+on: [push, pull_request]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: ${{ inputs.artifact-name }}
+      - name: Debug Git Tags
+        run: |
+          git fetch --tags
+          git tag
+      - name: Get existing version tag
+        id: get-existing-tag
+        shell: bash
+        run: |
+          echo "EXISTING=$( (git tag --points-at ${{ inputs.commit-sha }}) | head -1)" >> $GITHUB_OUTPUT
+      - run: echo Updating tag for ${{ steps.get-existing-tag.outputs.EXISTING }}
+        shell: bash
