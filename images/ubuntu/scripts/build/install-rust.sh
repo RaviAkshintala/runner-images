@@ -16,6 +16,9 @@ curl -fsSL https://sh.rustup.rs | sh -s -- -y --default-toolchain=stable --profi
 # Initialize environment variables
 source $CARGO_HOME/env
 
+# Disable rustup self-updating
+rustup set auto-self-update disable
+
 # Install common tools
 rustup component add rustfmt clippy
 
