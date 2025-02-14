@@ -7,18 +7,23 @@
 # Source the helpers for use with the script
 source $HELPER_SCRIPTS/install.sh
 
+
 GIT_REPO="ppa:git-core/ppa"
+GIT_VERSION="2.47.1"
+
 
 ## Install git
 add-apt-repository $GIT_REPO -y
 apt-get update
-apt-get install git
+apt-get install -y git=$GIT_VERSION
 
 # Git version 2.35.2 introduces security fix that breaks action\checkout https://github.com/actions/checkout/issues/760
 cat <<EOF >> /etc/gitconfig
 [safe]
         directory = *
 EOF
+
+
 
 # Install git-ftp
 apt-get install git-ftp
