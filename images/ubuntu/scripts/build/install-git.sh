@@ -7,12 +7,24 @@
 # Source the helpers for use with the script
 source $HELPER_SCRIPTS/install.sh
 
-GIT_REPO="ppa:git-core/ppa"
+GIT_VERSION="2.47.1"
 
-## Install git
-add-apt-repository $GIT_REPO -y
 apt-get update
-apt-get install git
+wget https://github.com/git/git/archive/refs/tags/v$GIT_VERSION.tar.gz
+tar -xvzf v$GIT_VERSION.tar.gz
+# Change to the extracted Git source directory
+cd git-$GIT_VERSION
+
+# Compile Git from the source
+make prefix=/usr/local all
+
+# Install Git
+sudo make prefix=/usr/local install
+
+# Clean up by removing the downloaded files
+cd ..
+rm -rf git-$GIT_VERSION
+rm v$GIT_VERSION.tar.gz
 
 # Git version 2.35.2 introduces security fix that breaks action\checkout https://github.com/actions/checkout/issues/760
 cat <<EOF >> /etc/gitconfig
