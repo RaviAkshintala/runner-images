@@ -17,7 +17,7 @@ $("mingw32", "mingw64") | ForEach-Object {
         $exceptions = "seh"
     } else {
         throw "Unknown architecture $_"
-    }
+    
 
         if ($runtime) {
         $runtimeSuffix = "$runtime-"
