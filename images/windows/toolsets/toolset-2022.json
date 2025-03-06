@@ -139,6 +139,11 @@
             "type": "preexisting-pinned-version-without-reason"
         }
     },
+
+    "mingw": {
+        "version": "8.5.0"
+    },
+    
     "MsysPackages": {
         "msys2": [],
         "mingw": []
