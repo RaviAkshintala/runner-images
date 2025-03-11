@@ -14,9 +14,8 @@ apt-get install ruby-full
 if is_ubuntu20; then
     gem install public_suffix -v 5.1.1
     
-    # Install google-cloud-errors gem pinned to version 1.4.0
-    gem install google-cloud-errors -v 1.4.0
-fi
+    # Install google-cloud-errors 
+   gem install google-cloud-core
 
 # Install ruby gems from toolset
 gems_to_install=$(get_toolset_value ".rubygems[] .name")
