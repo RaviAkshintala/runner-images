@@ -1,0 +1,22 @@
+name: Compute SHA256 Checksum
+
+on: [push,pull_request]
+
+jobs:
+  compute-sha256:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Download MSI file
+      run: wget -O wsl.msi https://github.com/microsoft/WSL/releases/download/2.4.12/wsl.2.4.12.0.x64.msi
+
+    - name: Compute SHA256 Checksum
+      run: sha256sum wsl.msi
+
+    - name: Print SHA256 Checksum
+      run: |
+        SHA256=$(sha256sum wsl.msi | awk '{ print $1 }')
+        echo "SHA256 Checksum: $SHA256"
