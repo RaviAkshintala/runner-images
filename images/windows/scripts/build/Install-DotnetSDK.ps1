@@ -117,7 +117,7 @@ foreach ($dotnetVersion in $dotnetToolset.versions) {
 
 # Replace manifests inside sdk-manifests/8.0.100 folder with ones from Visual Studio
 # https://github.com/actions/runner-images/issues/11402
-if ((Test-IsWin22) -or (Test-IsWin25)) {
+if (Test-IsWin25) {
     if (Test-Path "${env:TEMP_DIR}\8.0.100") {
         Get-ChildItem -Path "${env:TEMP_DIR}\8.0.100" | ForEach-Object {
             Remove-Item -Path "$sdkManifestPath\$($_.BaseName)" -Recurse -Force | Out-Null
