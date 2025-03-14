@@ -31,7 +31,7 @@ function Get-SDKVersionsToInstall {
 
     return $sdks.version `
     | Sort-Object { [Version] $_ } -Unique `
-    | Group-Object { $_.Substring(0, $_.LastIndexOf('.') + 2) } `
+    | Group-Object { $_.Substring(0, $_.LastIndexOf('.')) } `
     | ForEach-Object { $_.Group[-1] }
 }
 
