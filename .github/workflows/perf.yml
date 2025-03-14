@@ -24,7 +24,7 @@ jobs:
 
     - name: Show perf info events
       run: cat /boot/config-$(uname -r) | grep PERF_EVENTS
-           cat /boot/config-$(uname -r) | grep CONFIG_PMU_POWER
+           
 
     - name: Show perf list
       run: sudo perf list
