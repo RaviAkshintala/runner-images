@@ -1,0 +1,33 @@
+name: perf
+
+on: [push,pull_request]
+
+jobs:
+  perf:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Install perf
+      run: |
+        sudo apt-get install linux-tools-$(uname -r) linux-cloud-tools-$(uname -r)
+
+    - name: Enable perf event paranoid flag
+      run: sudo sysctl kernel.perf_event_paranoid=1
+
+    - name: Set Kernel KPTR  Restriction
+      run: sudo sysctl kernel.kptr_restrict=0
+
+    - name: See cpu Info
+      run: cat /proc/cpuinfo
+
+    - name: Show perf info events
+      run: cat /boot/config-$(uname -r) | grep PERF_EVENTS
+           cat /boot/config-$(uname -r) | grep CONFIG_PMU_POWER
+
+    - name: Show perf list
+      run: sudo perf list
+
+    - name: Run perf
+      run: sudo perf stat --timeout 10000 -ae power/energy-cores/,power/energy-pkg/,power/energy-psys/
